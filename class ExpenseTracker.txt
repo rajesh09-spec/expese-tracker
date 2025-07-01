@@ -1,0 +1,78 @@
+class ExpenseTracker:
+    def _init_(self):
+        self.expenses = []  # This will store all expenses
+        self.categories = ["Office Supplies", "Travel", "Meals", "Salaries", "Marketing", "Other"]  # Example categories
+
+    def add_expense(self, amount, category, description):
+        if category not in self.categories:
+            print("Invalid category. Please choose from the available categories.")
+            return
+        expense = {
+            "amount": amount,
+            "category": category,
+            "description": description
+        }
+        self.expenses.append(expense)
+        print(f"Expense added: {amount} in category '{category}' for '{description}'")
+
+    def view_expenses(self):
+        if not self.expenses:
+            print("No expenses recorded yet.")
+            return
+        print("All Expenses:")
+        total = 0
+        for expense in self.expenses:
+            print(f"Amount: {expense['amount']} | Category: {expense['category']} | Description: {expense['description']}")
+            total += expense['amount']
+        print(f"Total Expenses: {total}")
+
+    def view_expenses_by_category(self, category):
+        if category not in self.categories:
+            print("Invalid category.")
+            return
+        print(f"Expenses in category '{category}':")
+        total = 0
+        for expense in self.expenses:
+            if expense['category'] == category:
+                print(f"Amount: {expense['amount']} | Description: {expense['description']}")
+                total += expense['amount']
+        print(f"Total for {category}: {total}")
+
+    def get_total_expenses(self):
+        total = sum(expense['amount'] for expense in self.expenses)
+        return total
+
+
+def main():
+    tracker = ExpenseTracker()
+    
+    while True:
+        print("\n1. Add an expense")
+        print("2. View all expenses")
+        print("3. View expenses by category")
+        print("4. View total expenses")
+        print("5. Exit")
+        
+        choice = input("Select an option: ")
+        
+        if choice == "1":
+            amount = float(input("Enter the expense amount: "))
+            category = input(f"Enter the category ({', '.join(tracker.categories)}): ")
+            description = input("Enter a description for the expense: ")
+            tracker.add_expense(amount, category, description)
+        elif choice == "2":
+            tracker.view_expenses()
+        elif choice == "3":
+            category = input(f"Enter the category ({', '.join(tracker.categories)}): ")
+            tracker.view_expenses_by_category(category)
+        elif choice == "4":
+            total = tracker.get_total_expenses()
+            print(f"Total Expenses: {total}")
+        elif choice == "5":
+            print("Exiting the tracker.")
+            break
+        else:
+            print("Invalid choice, please try again.")
+
+if _name_ == "_main_":
+    main()
